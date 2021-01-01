@@ -1,6 +1,8 @@
 -- migrate:up
-CREATE TABLE places (
+CREATE TABLE user_like_cafes (
     id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id BIGINT(20) UNSIGNED NOT NULL,
+    cafe_id BIGINT(20) UNSIGNED NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
@@ -8,4 +10,4 @@ CREATE TABLE places (
 
 
 -- migrate:down
-DROP TABLE places;
+DROP TABLE user_cafe_places;

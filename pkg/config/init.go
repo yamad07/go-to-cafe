@@ -26,4 +26,10 @@ func Init() {
 		MaxOpen:     maxOpen,
 		MaxLifetime: time.Duration(maxLifetime),
 	}
+	ElasticSearch = es{
+		User:     os.Getenv("ES_USERNAME"),
+		Password: os.Getenv("ES_PASSWORD"),
+		Host:     os.Getenv("ES_HOST"),
+		Port:     os.Getenv("ES_PORT"),
+	}
 }
