@@ -62,7 +62,6 @@ func (c Search) Search(q value.RangeQuery) (
 	candidates []model.CafeCandidate,
 	aerr apperror.Error,
 ) {
-	log.Println(q)
 	var buf bytes.Buffer
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
@@ -74,7 +73,6 @@ func (c Search) Search(q value.RangeQuery) (
 		},
 	}
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Println(err)
 		return candidates, apperror.New(apperror.CodeError, err)
 	}
 
@@ -117,7 +115,6 @@ func (c Search) Search(q value.RangeQuery) (
 		}
 		candidates = append(candidates, cc)
 	}
-	log.Println(candidates)
 
 	return candidates, nil
 }
