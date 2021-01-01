@@ -78,7 +78,7 @@ func (u Usecase) SignUp(input Input) (output Output, aerr apperror.Error) {
 	if aerr != nil {
 		return output, aerr
 	}
-    aerr := u.userRepository.Create(act.ID)
+	aerr := u.userRepository.Create(act.ID)
 	if aerr != nil {
 		return output, aerr
 	}
