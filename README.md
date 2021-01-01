@@ -109,7 +109,7 @@ func (u Usecase) SignUp(input Input) (output Output, aerr apperror.Error) {
 		accountID: act.ID,
 		name:      input.Name,
 	}
-    // notification to subscribers
+	// notification to subscribers
 	sign_up.NewNotifier().Notify(evt)
 
 	output = Output{
