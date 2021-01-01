@@ -6,6 +6,7 @@ import (
 	"github.com/go-chi/chi"
 	auth "github.com/yamad07/go-modular-monolith/domain/auth/adapter/api"
 	cafe "github.com/yamad07/go-modular-monolith/domain/cafe/adapter/api"
+	search "github.com/yamad07/go-modular-monolith/domain/search/adapter/api"
 	"github.com/yamad07/go-modular-monolith/pkg/presenter"
 	"github.com/yamad07/go-modular-monolith/pkg/registry"
 )
@@ -29,6 +30,7 @@ func newAppRouter(repo registry.Repository) http.Handler {
 
 	r.Mount("/auth", auth.NewRouter(repo.NewAuth()))
 	r.Mount("/cafes", cafe.NewRouter(repo.NewCafe()))
+	r.Mount("/search", search.NewRouter(repo.NewSearch()))
 
 	return r
 }

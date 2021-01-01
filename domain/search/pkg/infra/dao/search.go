@@ -17,15 +17,18 @@ import (
 	"github.com/yamad07/go-modular-monolith/pkg/apperror"
 )
 
-type Cafe struct {
+const indexName = "cafe"
+
+type Search struct {
 	es *elasticsearch.Client
 }
 
-func NewCafe(es *elasticsearch.Client) Cafe {
-	return Cafe{es}
+func NewSearch(es *elasticsearch.Client) Search {
+	return Search{es}
 }
 
-func (c Cafe) Create(i value.CreateCafeIndex) apperror.Error {
+func (c Search) Create(i value.CreateCafeIndex) apperror.Error {
+	log.Println(i)
 
 	lat := strconv.FormatFloat(i.Latitude, 'f', 2, 64)
 	log := strconv.FormatFloat(i.Longitude, 'f', 2, 64)
@@ -37,7 +40,7 @@ func (c Cafe) Create(i value.CreateCafeIndex) apperror.Error {
 	b.WriteString(`}`)
 
 	req := esapi.IndexRequest{
-		Index:      "cafe",
+		Index:      indexName,
 		DocumentID: strconv.Itoa(int(i.ID)),
 		Body:       strings.NewReader(b.String()),
 		Refresh:    "true",
@@ -55,10 +58,11 @@ func (c Cafe) Create(i value.CreateCafeIndex) apperror.Error {
 	return nil
 }
 
-func (c Cafe) Search(q value.RangeQuery) (
+func (c Search) Search(q value.RangeQuery) (
 	candidates []model.CafeCandidate,
 	aerr apperror.Error,
 ) {
+	log.Println(q)
 	var buf bytes.Buffer
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
@@ -74,10 +78,9 @@ func (c Cafe) Search(q value.RangeQuery) (
 		return candidates, apperror.New(apperror.CodeError, err)
 	}
 
-	// Perform the search request.
 	res, err := c.es.Search(
 		c.es.Search.WithContext(context.Background()),
-		c.es.Search.WithIndex("cafe"),
+		c.es.Search.WithIndex(indexName),
 		c.es.Search.WithBody(&buf),
 		c.es.Search.WithTrackTotalHits(true),
 		c.es.Search.WithPretty(),
@@ -114,6 +117,7 @@ func (c Cafe) Search(q value.RangeQuery) (
 		}
 		candidates = append(candidates, cc)
 	}
+	log.Println(candidates)
 
 	return candidates, nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/yamad07/go-modular-monolith/domain/cafe/pkg/domain/repository"
 	"github.com/yamad07/go-modular-monolith/domain/cafe/pkg/domain/value"
 	"github.com/yamad07/go-modular-monolith/pkg/apperror"
+	"github.com/yamad07/go-modular-monolith/pkg/boundary/create_cafe"
 )
 
 type Usecase struct {
@@ -57,6 +58,14 @@ func (u Usecase) Create(input CreateInput) (output CafeOutput, aerr apperror.Err
 	if aerr != nil {
 		return output, aerr
 	}
+
+	evt := EventData{
+		id:        cafe.ID,
+		name:      cafe.Name,
+		longitude: cafe.Longitude,
+		latitude:  cafe.Latitude,
+	}
+	create_cafe.NewNotifier().Notify(evt)
 
 	output = CafeOutput{
 		Cafe: cafe,

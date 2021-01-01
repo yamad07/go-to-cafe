@@ -1,17 +1,8 @@
-package cafe
+package search
 
-type fetchRequest struct {
-	IDs []int64 `schema:"ids"`
-}
-
-type createRequest struct {
-	Name      string  `json:"name"`
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-}
-
-type updateRequest struct {
-	Name      string  `json:"name"`
-	Latitude  float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
+type request struct {
+	MaxLatitude  float64 `schema:"max_latitude"`
+	MinLatitude  float64 `schema:"min_latitude"`
+	MaxLongitude float64 `schema:"max_longitude"`
+	MinLongitude float64 `schema:"min_longitude"`
 }
