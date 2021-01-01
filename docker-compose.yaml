@@ -21,10 +21,6 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: modular
       MYSQL_USER: root
-    ports:
-      - "3305:3306" # for debug. to access form host.
-    networks:
-      - anipic
     volumes:
       - ./docker/dev/my.cnf:/etc/mysql/conf.d/my.cnf
 
@@ -32,3 +28,5 @@ services:
     image: amacneil/dbmate:v1.9.0
     volumes:
       - ./db:/db
+    env_file:
+      - .env.docker

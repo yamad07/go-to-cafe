@@ -1,0 +1,19 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+  - name: server
+    path: .
+    commands:
+      build:
+        status: true
+        method: go build github.com/yamad07/go-modular-monolith/cmd/api/server
+      run:
+        status: true
+        method: ./server
+    watcher:
+      extensions:
+        - go
+      paths:
+        - /
