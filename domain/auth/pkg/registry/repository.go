@@ -2,26 +2,20 @@ package registry
 
 import (
 	"github.com/yamad07/go-modular-monolith/domain/auth/pkg/infra/dao"
-	"github.com/yamad07/go-modular-monolith/pkg/mysql"
 	"gorm.io/gorm"
 )
 
-type Repository struct {
+type AuthRepository struct {
 	db *gorm.DB
 }
 
-func NewRepository() (Repository, func() error) {
+func NewAuthRepository(db *gorm.DB) AuthRepository {
 
-	db, cleanup, err := mysql.Init()
-	if err != nil {
-		panic(err)
-	}
-
-	return Repository{
+	return AuthRepository{
 		db: db,
-	}, cleanup
+	}
 }
 
-func (r Repository) NewAccount() dao.Account {
+func (r AuthRepository) NewAccount() dao.Account {
 	return dao.NewAccount(r.db)
 }

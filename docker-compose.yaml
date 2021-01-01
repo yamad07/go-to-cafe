@@ -1,0 +1,34 @@
+version: '2.2'
+services:
+  app:
+    container_name: modular-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+    volumes:
+      - ./:/app
+    working_dir: /app
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: modular
+      MYSQL_USER: root
+    ports:
+      - "3305:3306" # for debug. to access form host.
+    networks:
+      - anipic
+    volumes:
+      - ./docker/dev/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  dbmate:
+    image: amacneil/dbmate:v1.9.0
+    volumes:
+      - ./db:/db

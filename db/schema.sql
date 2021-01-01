@@ -17,9 +17,9 @@
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `accounts` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `encrypted_password` varchar(200) NOT NULL,
-  `user_id` bigint(20) unsigned NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -76,6 +76,7 @@ CREATE TABLE `user_like_places` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` bigint(20) unsigned NOT NULL,
   `name` varchar(200) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

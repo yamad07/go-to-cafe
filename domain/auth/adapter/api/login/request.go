@@ -1,4 +1,4 @@
-package adapter
+package login
 
 type loginRequest struct {
 	Email    string `json:"email"`

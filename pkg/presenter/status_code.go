@@ -8,10 +8,11 @@ import (
 )
 
 var CodeStatuses = map[apperror.Code]int{
-	apperror.CodeError:    http.StatusInternalServerError,
-	apperror.CodeSuccess:  http.StatusOK,
-	apperror.CodeNotFound: http.StatusNotFound,
-	apperror.CodeInvalid:  http.StatusBadRequest,
+	apperror.CodeError:        http.StatusInternalServerError,
+	apperror.CodeSuccess:      http.StatusOK,
+	apperror.CodeNotFound:     http.StatusNotFound,
+	apperror.CodeInvalid:      http.StatusBadRequest,
+	apperror.CodeUnauthorized: http.StatusUnauthorized,
 }
 
 type Response struct {
@@ -25,6 +26,7 @@ func NewResponse(msg string) Response {
 }
 
 func ApplicationException(w http.ResponseWriter, aerr apperror.Error) {
+	w.Header().Add("Content-type", "application/json")
 	w.WriteHeader(CodeStatuses[aerr.Code()])
 
 	body := NewResponse(aerr.Error())
@@ -32,6 +34,7 @@ func ApplicationException(w http.ResponseWriter, aerr apperror.Error) {
 }
 
 func InternalServerError(w http.ResponseWriter, err error) {
+	w.Header().Add("Content-type", "application/json")
 	w.WriteHeader(http.StatusInternalServerError)
 
 	body := NewResponse(err.Error())
@@ -39,6 +42,7 @@ func InternalServerError(w http.ResponseWriter, err error) {
 }
 
 func BadRequestError(w http.ResponseWriter, err error) {
+	w.Header().Add("Content-type", "application/json")
 	w.WriteHeader(http.StatusBadRequest)
 
 	body := NewResponse(err.Error())
@@ -46,12 +50,14 @@ func BadRequestError(w http.ResponseWriter, err error) {
 }
 
 func Success(w http.ResponseWriter) {
+	w.Header().Add("Content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	body := NewResponse("success")
 	encode(w, body)
 }
 
 func Encode(w http.ResponseWriter, body interface{}) {
+	w.Header().Add("Content-type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	encode(w, body)
 }

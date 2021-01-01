@@ -2,6 +2,7 @@ package login
 
 import (
 	"github.com/yamad07/go-modular-monolith/domain/auth/pkg/domain/repository"
+	"github.com/yamad07/go-modular-monolith/domain/auth/pkg/domain/value"
 	"github.com/yamad07/go-modular-monolith/pkg/apperror"
 )
 
@@ -22,6 +23,12 @@ func (u Usecase) Login(input Input) (output Output, aerr apperror.Error) {
 	if aerr != nil {
 		return output, aerr
 	}
+	pwd := value.Password(input.Password)
+	err := pwd.Compare(act.EncryptedPassword)
+	if err != nil {
+		return output, apperror.New(apperror.CodeUnauthorized, err)
+	}
+
 	return Output{
 		Account: act,
 	}, nil

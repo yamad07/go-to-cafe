@@ -1,4 +1,4 @@
-package adapter
+package login
 
 import (
 	"encoding/json"
@@ -14,7 +14,7 @@ type handler struct {
 	usecase login.Usecase
 }
 
-func NewHandler(repo registry.Repository) handler {
+func NewHandler(repo registry.AuthRepository) handler {
 	usecase := login.NewUsecase(repo.NewAccount())
 	return handler{usecase}
 }
