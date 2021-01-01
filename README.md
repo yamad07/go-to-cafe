@@ -64,3 +64,62 @@ The main features are below.
 $ make migrate
 $ make run
 ```
+
+# Crossing the Baundary
+**Before modular monolith**
+```
+func (u Usecase) SignUp(input Input) (output Output, aerr apperror.Error) {
+	p := value.NewCreateAccountParam(input.Email, input.Password)
+	aerr = u.accountRepository.Create(p)
+	if aerr != nil {
+		return output, aerr
+	}
+	act, aerr := u.accountRepository.GetByUID(p.UID)
+	if aerr != nil {
+		return output, aerr
+	}
+    aerr := u.userRepository.Create(act.ID)
+	if aerr != nil {
+		return output, aerr
+	}
+
+	output = Output{
+		Account: act,
+	}
+
+	return output, nil
+}
+```
+In this example, the usecase of `auth` dependent on the `user`.
+
+**In modular monolith**
+```
+func (u Usecase) SignUp(input Input) (output Output, aerr apperror.Error) {
+	p := value.NewCreateAccountParam(input.Email, input.Password)
+	aerr = u.accountRepository.Create(p)
+	if aerr != nil {
+		return output, aerr
+	}
+	act, aerr := u.accountRepository.GetByUID(p.UID)
+	if aerr != nil {
+		return output, aerr
+	}
+
+	evt := EventData{
+		accountID: act.ID,
+		name:      input.Name,
+	}
+    // notification to subscribers
+	sign_up.NewNotifier().Notify(evt)
+
+	output = Output{
+		Account: act,
+	}
+
+	return output, nil
+}
+```
+In this example, `auth` does not dependent on `user`.
+
+To achieve this, I used the singleton pattern, observer pattern, and the go interface.
+For more details, please read [this code](https://github.com/yamad07/go-to-cafe/tree/main/pkg/boundary).
