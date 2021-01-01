@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
@@ -28,7 +27,6 @@ func NewSearch(es *elasticsearch.Client) Search {
 }
 
 func (c Search) Create(i value.CreateCafeIndex) apperror.Error {
-	log.Println(i)
 
 	lat := strconv.FormatFloat(i.Latitude, 'f', 2, 64)
 	log := strconv.FormatFloat(i.Longitude, 'f', 2, 64)
@@ -65,9 +63,18 @@ func (c Search) Search(q value.RangeQuery) (
 	var buf bytes.Buffer
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
-			"range": map[string]interface{}{
-				"latitude": map[string]interface{}{
-					"gte": q.MinLatitude, "lt": q.MaxLatitude,
+			"bool": map[string]interface{}{
+				"must": []map[string]interface{}{{
+					"range": map[string]interface{}{
+						"latitude": map[string]interface{}{
+							"gte": q.MinLatitude, "lt": q.MaxLatitude,
+						},
+					}}, {
+					"range": map[string]interface{}{
+						"longitude": map[string]interface{}{
+							"gte": q.MinLongitude, "lt": q.MaxLongitude,
+						},
+					}},
 				},
 			},
 		},

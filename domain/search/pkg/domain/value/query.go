@@ -19,8 +19,8 @@ func NewRangeQuery(
 	}
 
 	if minLongitude == 0 && maxLongitude == 0 {
-		minLatitude = -180
-		maxLatitude = 180
+		minLongitude = -180
+		maxLongitude = 180
 	}
 
 	return RangeQuery{
