@@ -29,12 +29,12 @@ func (u Usecase) Create(input CreateInput) apperror.Error {
 }
 
 func (u Usecase) Search(input SearchInput) (output Output, aerr apperror.Error) {
-	q := value.RangeQuery{
-		MaxLatitude:  input.MaxLatitude,
-		MinLatitude:  input.MinLatitude,
-		MaxLongitude: input.MaxLongitude,
-		MinLongitude: input.MinLongitude,
-	}
+	q := value.NewRangeQuery(
+		input.MinLatitude,
+		input.MaxLatitude,
+		input.MinLongitude,
+		input.MaxLongitude,
+	)
 	cands, aerr := u.searchRepository.Search(q)
 	if aerr != nil {
 		return output, aerr

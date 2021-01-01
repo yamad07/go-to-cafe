@@ -19,7 +19,7 @@ func TestCafe(t *testing.T) {
 		panic(err)
 	}
 
-	cafe := NewCafe(ES)
+	cafe := NewSearch(ES)
 
 	i := value.CreateCafeIndex{
 		ID:        10,
@@ -36,7 +36,7 @@ func TestCafe(t *testing.T) {
 		MaxLongitude: 134.2,
 	}
 
-	candidates, aerr := cafe.SearchFromRange(q)
+	candidates, aerr := cafe.Search(q)
 	assert.NoError(t, aerr)
 	assert.Exactly(t, 1, len(candidates))
 
@@ -47,7 +47,7 @@ func TestCafe(t *testing.T) {
 		MaxLongitude: 134.2,
 	}
 
-	candidates, aerr = cafe.SearchFromRange(q)
+	candidates, aerr = cafe.Search(q)
 	assert.NoError(t, aerr)
 	assert.Exactly(t, 0, len(candidates))
 }
