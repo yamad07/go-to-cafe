@@ -10,7 +10,8 @@ The main features are below.
 - High Deployability
     - Low deployment costs due to a single server.
 
-## Architecture
+# Architecture
+```
 ├── Dockerfile
 ├── Makefile
 ├── README.md
@@ -55,8 +56,9 @@ The main features are below.
 │   ├── presenter
 │   └── registry
 └── server
+```
 
-## Usage
+# Usage
 
 ```
 $ make migrate
