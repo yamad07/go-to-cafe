@@ -5,6 +5,7 @@ import (
 
 	"github.com/yamad07/go-modular-monolith/domain/cafe/pkg/domain/repository"
 	"github.com/yamad07/go-modular-monolith/domain/cafe/pkg/domain/value"
+	"github.com/yamad07/go-modular-monolith/domain/cafe/pkg/registry"
 	"github.com/yamad07/go-modular-monolith/pkg/apperror"
 	"github.com/yamad07/go-modular-monolith/pkg/boundary/create_cafe"
 )
@@ -14,10 +15,10 @@ type Usecase struct {
 }
 
 func NewUsecase(
-	cafeRepository repository.Cafe,
+	repo registry.Repository,
 ) Usecase {
 	return Usecase{
-		cafeRepository: cafeRepository,
+		cafeRepository: repo.NewCafe(),
 	}
 }
 

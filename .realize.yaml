@@ -3,12 +3,27 @@ settings:
     force: false
     interval: 0s
 schema:
-  - name: server
+  - name: api
     path: .
     commands:
       build:
         status: true
         method: go build github.com/yamad07/go-modular-monolith/cmd/api/server
+      run:
+        status: true
+        method: ./server
+    watcher:
+      extensions:
+        - go
+      paths:
+        - /
+
+  - name: admin
+    path: .
+    commands:
+      build:
+        status: true
+        method: go build github.com/yamad07/go-modular-monolith/cmd/admin/server
       run:
         status: true
         method: ./server

@@ -4,9 +4,25 @@ services:
     container_name: modular-api
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/api/Dockerfile
     ports:
       - "9000:9000"
+    env_file:
+      - .env.docker
+    depends_on:
+      - mysql
+      - elasticsearch
+    volumes:
+      - ./:/app
+    working_dir: /app
+
+  admin:
+    container_name: modular-admin-api
+    build:
+      context: .
+      dockerfile: docker/admin/Dockerfile
+    ports:
+      - "7000:7000"
     env_file:
       - .env.docker
     depends_on:

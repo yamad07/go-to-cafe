@@ -3,6 +3,7 @@ package search
 import (
 	"github.com/yamad07/go-modular-monolith/domain/search/pkg/domain/repository"
 	"github.com/yamad07/go-modular-monolith/domain/search/pkg/domain/value"
+	"github.com/yamad07/go-modular-monolith/domain/search/pkg/registry"
 	"github.com/yamad07/go-modular-monolith/pkg/apperror"
 )
 
@@ -11,10 +12,10 @@ type Usecase struct {
 }
 
 func NewUsecase(
-	searchRepository repository.Search,
+	repo registry.Repository,
 ) Usecase {
 	return Usecase{
-		searchRepository: searchRepository,
+		searchRepository: repo.NewSearch(),
 	}
 }
 

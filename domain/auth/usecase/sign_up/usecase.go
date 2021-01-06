@@ -3,6 +3,7 @@ package sign_up
 import (
 	"github.com/yamad07/go-modular-monolith/domain/auth/pkg/domain/repository"
 	"github.com/yamad07/go-modular-monolith/domain/auth/pkg/domain/value"
+	"github.com/yamad07/go-modular-monolith/domain/auth/pkg/registry"
 	"github.com/yamad07/go-modular-monolith/pkg/apperror"
 	"github.com/yamad07/go-modular-monolith/pkg/boundary/sign_up"
 )
@@ -12,10 +13,10 @@ type Usecase struct {
 }
 
 func NewUsecase(
-	accountRepository repository.Account,
+	repo registry.AuthRepository,
 ) Usecase {
 	return Usecase{
-		accountRepository,
+		accountRepository: repo.NewAccount(),
 	}
 }
 

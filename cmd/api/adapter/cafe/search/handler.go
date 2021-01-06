@@ -5,10 +5,10 @@ import (
 	"net/http"
 
 	"github.com/gorilla/schema"
+	"github.com/yamad07/go-modular-monolith/domain/search/pkg/registry"
 	"github.com/yamad07/go-modular-monolith/domain/search/pkg/view"
 	search "github.com/yamad07/go-modular-monolith/domain/search/usecase"
 	"github.com/yamad07/go-modular-monolith/pkg/presenter"
-	"github.com/yamad07/go-modular-monolith/pkg/registry"
 )
 
 type handler struct {
@@ -16,7 +16,7 @@ type handler struct {
 }
 
 func NewHandler(repo registry.Repository) handler {
-	usecase := search.NewUsecase(repo.NewSearch())
+	usecase := search.NewUsecase(repo)
 	return handler{usecase}
 }
 

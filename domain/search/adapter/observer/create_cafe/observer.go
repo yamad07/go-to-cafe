@@ -14,9 +14,7 @@ type Observer struct {
 
 func NewObserver(repo registry.Repository) {
 	observer := Observer{
-		usecase: search.NewUsecase(
-			repo.NewSearch(),
-		),
+		usecase: search.NewUsecase(repo),
 	}
 	create_cafe.NewNotifier().Register(observer)
 }
